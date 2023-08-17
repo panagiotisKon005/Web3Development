@@ -8,19 +8,26 @@ require("solidity-coverage")
 /** @type import('hardhat/config').HardhatUserConfig */
 
 const GOERLI_RPC_URL = process.env.GOERLI_RPC_URL || "https://eth-goerli"
+const BSCTESTNET_RPC_URL = process.env.BSCTESTNET_RPC_URL || "https://bsc-testnet"
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "key"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "key"
+const BSCSCAN_API_KEY = process.env.BSCSCAN_API_KEY || "key"
 const COINMARKETCAP_API_KEY=process.env.COINMARKETCAP_API_KEY || "key"
 
 
 module.exports = {
-    defaultNetwork: "hardhat",
+    defaultNetwork: "bsc_testnet",
     networks: {
         hardhat: {},
         goerli: {
           url: GOERLI_RPC_URL,
           accounts: [PRIVATE_KEY],
           chainId: 5,
+        },
+        bsc_testnet: {
+          url: BSCTESTNET_RPC_URL,
+          accounts: [PRIVATE_KEY],
+          chainId: 97,
         },
         localhost: {
           url: "http://127.0.0.1:8545/",
@@ -29,7 +36,7 @@ module.exports = {
     },
     solidity: "0.8.8",
     etherscan: {
-      apiKey: ETHERSCAN_API_KEY,
+      apiKey: BSCSCAN_API_KEY,
     },
     gasReporter: {
         enabled: true,
@@ -38,5 +45,5 @@ module.exports = {
         currency: "USD",
         coinmarketcap: COINMARKETCAP_API_KEY,
         token: "ETH",
-    }
+    },
 };

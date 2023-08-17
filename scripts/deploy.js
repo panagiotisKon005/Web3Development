@@ -13,23 +13,30 @@ async function main() {
     console.log(`Deployed contract to: ${simpleStorage.address}`)
     
     //Verification
-    if (network.config.chainId === 5 && process.env.ETHERSCAN_API_KEY) {
+    if (network.config.chainId === 97 && process.env.BSCSCAN_API_KEY) {
       console.log("Waiting for block txes...")  
       await simpleStorage.deployTransaction.wait(6) 
       await verify(simpleStorage.address, [])
     }
 
+    //Contract Interactions:
     const currentValue = await simpleStorage.retrieve()
-    console.log(`Current Value is, ${currentValue}`)
+    console.log(`Current Value is: ${currentValue}`)
 
     // Update the current calue
-    const transactionResponse = await simpleStorage.store(7)
+    const transactionResponse = await simpleStorage.store(5)
     await transactionResponse.wait(1)
     const updatedValue = await simpleStorage.retrieve()
     console.log(`Updated Value is: ${updatedValue}`)
   
+    //second time
+   // const transactionResponse2 = await simpleStorage.store(10)
+   // await transactionResponse2.wait(1)
+   // const updatedValue2 = await simpleStorage.retrieve()
+   // console.log(`Updated Value is: ${updatedValue2}`)
   }
 
+//Contract Verification
 async function verify(contractAddress, args) {  
     console.log("Verifing Contract...")
     try {
@@ -38,7 +45,7 @@ async function verify(contractAddress, args) {
             constructorArguments: args,
           })
     } catch (e) {
-      if (e.message.toLowerCase().includes("already verified")) {
+      if (e.message.toLowerCase().includes("already been verified")) {
         console.log("Already Verified!")
       } else {
         console.log(e)
